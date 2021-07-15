@@ -214,6 +214,10 @@ def main():
         print(f"[?] Uses verified boot: {USES_VERIFIED_BOOT}")
         fp.seek(0)
         
+        USES_FRP = (fp.read().find(b'frp') != -1)
+        print(f"[?] Factory reset protection (FRP): {USES_FRP}")
+        fp.seek(0)
+
         print(f"[?] Available OEM commands: {parse_lk_oem_commands(fp)}")
 
 if __name__ == "__main__":
