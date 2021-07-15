@@ -210,7 +210,7 @@ def main():
         print(f"[?] Needs unlock code: {NEEDS_UNLOCK_CODE}")
         fp.seek(0)
 
-        USES_VERIFIED_BOOT = (fp.read().find(b'verified boot') != 1)
+        USES_VERIFIED_BOOT = (fp.read().find(b'verified boot') != -1)
         print(f"[?] Uses verified boot: {USES_VERIFIED_BOOT}")
         fp.seek(0)
         
