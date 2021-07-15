@@ -218,6 +218,10 @@ def main():
         print(f"[?] Factory reset protection (FRP): {USES_FRP}")
         fp.seek(0)
 
+        USES_FOTA = (fp.read().find(b'fota') != -1)
+        print(f"[?] FOTA support: {USES_FOTA}")
+        fp.seek(0)
+
         print(f"[?] Available OEM commands: {parse_lk_oem_commands(fp)}")
 
 if __name__ == "__main__":
