@@ -34,6 +34,36 @@ HEADER_SEQ = b'\x88\x16\x88X'
 if sys.version_info[1] < 9:
     raise RuntimeError("[!] Python 3.9+ is required.")
 
+def parse_lk_atags(lk : io.BufferedReader) -> str:
+    """
+    Reads and parses the ARM ATAGs from the provided LK image.
+    :param lk: The image to be parsed.
+    :return: The ATAGs names.
+    """
+    OFFSETS = []
+    ATAGS = []
+    I = 0
+
+    lk.seek(0)
+    data = lk.read()
+
+    for m in re.finditer(b'atag,', data):
+        OFFSETS.append(m.start())
+
+    if OFFSETS == []:
+        # Legacy bootloaders do not include atags
+        return "N/A"
+
+    for offset in OFFSETS:
+        lk.seek(offset)
+        while lk.read(1) != b'\x00':
+            I += 1
+        lk.seek(offset)
+        ATAGS.append(lk.read(I).decode("utf-8"))
+        I = 0
+
+    return ATAGS
+
 def parse_lk_product(lk : io.BufferedReader) -> str:
     """
     Reads and parses the product name from the provided LK image.
@@ -223,6 +253,7 @@ def main():
         fp.seek(0)
 
         print(f"[?] Available OEM commands: {parse_lk_oem_commands(fp)}")
+        print(f"[?] LK ATAGs: {parse_lk_atags(fp)}")
 
 if __name__ == "__main__":
     main()
