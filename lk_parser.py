@@ -168,7 +168,7 @@ def parse_lk_cmdline(lk : io.BufferedReader) -> str:
     lk.seek(0)
     return CMDLINE
     
-def parse_lk_oem_commands(lk : io.BufferedReader) -> list[str]:
+def parse_lk_oem_commands(lk : io.BufferedReader, size : int) -> list[str]:
     """
     Reads and parses all the "oem command" commands from the provided LK image.
     :param lk: The image to be parsed.
@@ -185,7 +185,7 @@ def parse_lk_oem_commands(lk : io.BufferedReader) -> list[str]:
         OEM_OFFSETS.append(m.start())
 
     for offset in OEM_OFFSETS:
-        TMP_COMMANDS.append(data[offset:offset+3+500]) # offset, b'oem' length, inaccurate string length (fixme)
+        TMP_COMMANDS.append(data[offset:offset+3+size]) # offset + b'oem' + lk size
 
     for word in str(TMP_COMMANDS).split("oem "):
         param = ''
@@ -252,7 +252,7 @@ def main():
         print(f"[?] FOTA support: {USES_FOTA}")
         fp.seek(0)
 
-        print(f"[?] Available OEM commands: {parse_lk_oem_commands(fp)}")
+        print(f"[?] Available OEM commands: {parse_lk_oem_commands(fp, HEADER_FILE_SIZE)}")
         print(f"[?] LK ATAGs: {parse_lk_atags(fp)}")
 
 if __name__ == "__main__":
