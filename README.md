@@ -27,7 +27,10 @@ r0rt1z2@r0rt1z2: /lk_parser$ python3 lk_parser.py lk.bin
 [?] Product: D5270_ARCHOS_E1
 [?] Needs unlock code: False
 [?] Uses verified boot: True
+[?] Factory reset protection (FRP): True
+[?] FOTA support: False
 [?] Available OEM commands: ['fastboot oem p2u', 'fastboot oem reboot-recovery', 'fastboot oem append-cmdline', 'fastboot oem off-mode-charge', 'fastboot oem unlock', 'fastboot oem lock', 'fastboot oem key', 'fastboot oem lks', 'fastboot oem ap_jtag']
+[?] LK ATAGs: ['atag,boot', 'atag,mem', 'atag,vcore_dvfs', 'atag,dfo', 'atag,meta', 'atag,devinfo', 'atag,videolfb', 'atag,mdinfo', 'atag,ptp', 'atag,masp', 'atag,cmdline']
 
 r0rt1z2@r0rt1z2: /lk_parser$
 ```
